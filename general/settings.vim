@@ -1,14 +1,13 @@
-set relativenumber
+set number relativenumber
 
 set smarttab
 set cindent
+
 set tabstop=4
-set shiftwidth=2
+set shiftwidth=4
 set expandtab
 
 set nocompatible
-
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 set hidden 
 set nowrap
@@ -24,7 +23,6 @@ set nobackup
 set nowritebackup
 set updatetime=300
 set timeoutlen=100
-set clipboard=unnamedplus
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c

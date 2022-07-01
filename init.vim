@@ -1,21 +1,19 @@
 
+set termguicolors
+
 source $HOME/.config/nvim/vim-plug/plugins.vim
 source $HOME/.config/nvim/general/settings.vim
 source $HOME/.config/nvim/general/mappings.vim
-source $HOME/.config/nvim/themes/onedark.vim
 source $HOME/.config/nvim/themes/airline.vim
 source $HOME/.config/nvim/plug-config/coc.vim
+source $HOME/.config/nvim/plug-config/rainbow.vim
+source $HOME/.config/nvim/plug-config/rnvimr.vim
+luafile $HOME/.config/nvim/lua/plug-colorizer.lua
 
-nmap <C-e> :CtrlP<CR>
-vmap <C-e> :CtrlP<CR>
-
-
-
+      
 " Move line up and down
 xnoremap <M-Up> xkP`[V`]
 xnoremap <M-Down> xp`[V`]
-xnoremap <C-S-Left> <gv
-xnoremap <C-S-Right> >gv
 
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -26,6 +24,38 @@ if &term =~ '^screen'
   endif
 
 
+" disable arrows
+"noremap <Up> <Nop>
+"noremap <Down> <Nop>
+"noremap <Left> <Nop>
+"noremap <Right> <Nop>
+
+
+" Multi cursor
+let g:VM_mouse_mappings = 1
+let g:VM_maps = {}
+let g:VM_maps['Find Under']                  = '<C-d>'
+let g:VM_maps['Find Subword Under']          = '<C-d>'
+let g:VM_maps["Add Cursor At Pos"]           = '<C-a>'
+
+"let g:qs_highlight _on_keys = ['f','F','t','T']
+
+
+
+vmap ++ <plug>NERDCommenterToggle
+nmap ++ <plug>NERDCommenterToggle
+
+
+let g:startify_lists = [
+            \ {'type':'sessions', 'header': ['   Sessions']},
+            "\ {'type':'file', 'header': ['   File']},
+            \ {'type':'dir', 'header': ['   Current Directory']},
+      \ ]
+
+let g:startify_session_dir = '~/.config/nvim/sessions'
+
+
+
 " ctrlp
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
@@ -34,15 +64,23 @@ noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 
-
 " coc config
 let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-tsserver',
   \ 'coc-eslint', 
-  \ 'coc-json', 
+  \ 'coc-json',
+  \ 'coc-actions',
+  \ 'coc-tailwind-intellisense',
   \ ]
+
+
+
+augroup import_cost_auto_run
+  autocmd!
+  autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+augroup END
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -88,6 +126,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
 
+" insert buffers at the end 
+"let bufferline.insert_at_end = v:false
 
 augroup mygroup
   autocmd!
@@ -116,6 +156,4 @@ omap af <Plug>(coc-funcobj-a)
 nmap <silent> <C-d> <Plug>(coc-range-select)
 xmap <silent> <C-d> <Plug>(coc-range-select)
 
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
 
